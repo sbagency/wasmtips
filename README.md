@@ -1,6 +1,6 @@
 ## wasm tips
 
--  0 - [c to wasm](https://github.com/beyondns/gotips/blob/master/README.md#0---c-to-wasm)
+-  0 - [c to wasm](https://github.com/web3scout/wasmtips/blob/master/README.md#0---c-to-wasm)
 
 ## #0 - c to wasm
 > 2020-27-05 by [@web3scout](https://github.com/web3scout)  
