@@ -9,6 +9,7 @@
 ```bash
 npm i wabt
 ```
+code.wat
 ```wat
 (module
   (func (result i32)
@@ -17,6 +18,7 @@ npm i wabt
   (export "helloWorld" (func 0))
 )
 ```
+build.js
 ```js
 const fs = require("fs");
 const wabt = require("wabt")();
@@ -27,20 +29,26 @@ const wasm = process.argv[3]
 const wasmModule = wabt.parseWat(wat, fs.readFileSync(wat, "utf8"));
 fs.writeFileSync(wasm, new Buffer.from( wasmModule.toBinary({}).buffer));```
 ```
+run build.js
 ```bash
 node build.js code.wat code.wasm
 ```
+test.js
 ```js
 const fs = require("fs");
-
+const wasm = process.argv[2]
 const run = async () => {
-  const buffer = fs.readFileSync("./code.wasm");
+  const buffer = fs.readFileSync(wasm);
   const module = await WebAssembly.compile(buffer);
   const instance = await WebAssembly.instantiate(module);
   console.log(instance.exports.helloWorld());
 };
 
 run();
+```
+run test
+```bash
+node test.js code.wasm
 ```
 
 ## #1 - c to wasm
