@@ -27,7 +27,7 @@ const wat = process.argv[2]
 const wasm = process.argv[3]
 
 const wasmModule = wabt.parseWat(wat, fs.readFileSync(wat, "utf8"));
-fs.writeFileSync(wasm, new Buffer.from( wasmModule.toBinary({}).buffer));```
+fs.writeFileSync(wasm, new Buffer.from( wasmModule.toBinary({}).buffer));
 ```
 run build.js
 ```bash
