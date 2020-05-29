@@ -1,7 +1,47 @@
 ## wasm tips
 
+-  2 - [node](https://github.com/web3scout/wasmtips/blob/master/README.md#2---node)
 -  1 - [c to wasm](https://github.com/web3scout/wasmtips/blob/master/README.md#1---c-to-wasm)
 -  0 - [wat to wasm](https://github.com/web3scout/wasmtips/blob/master/README.md#0---wat-to-wasm)
+
+## #2 - nodejs
+> 2020-29-05 by [@web3scout](https://github.com/web3scout)  
+```bash
+npm i wabt
+```
+```wat
+(module
+  (func (result i32)
+    (i32.const 42)
+  )
+  (export "helloWorld" (func 0))
+)
+```
+```js
+const fs = require("fs");
+const wabt = require("wabt")();
+
+const wat = process.argv[2]
+const wasm = process.argv[3]
+
+const wasmModule = wabt.parseWat(wat, fs.readFileSync(wat, "utf8"));
+fs.writeFileSync(wasm, new Buffer.from( wasmModule.toBinary({}).buffer));```
+```
+```bash
+node build.js code.wat code.wasm
+```
+```js
+const fs = require("fs");
+
+const run = async () => {
+  const buffer = fs.readFileSync("./code.wasm");
+  const module = await WebAssembly.compile(buffer);
+  const instance = await WebAssembly.instantiate(module);
+  console.log(instance.exports.helloWorld());
+};
+
+run();
+```
 
 ## #1 - c to wasm
 > 2020-27-05 by [@web3scout](https://github.com/web3scout)  
