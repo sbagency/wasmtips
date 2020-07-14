@@ -1,8 +1,27 @@
 ## wasm tips
-
+-  3 - [docker clang](https://github.com/web3scout/wasmtips/blob/master/README.md#3---docker-clang)
 -  2 - [node](https://github.com/web3scout/wasmtips/blob/master/README.md#2---node)
 -  1 - [c to wasm](https://github.com/web3scout/wasmtips/blob/master/README.md#1---c-to-wasm)
 -  0 - [wat to wasm](https://github.com/web3scout/wasmtips/blob/master/README.md#0---wat-to-wasm)
+
+## #3 - docker clang
+```Dockerfile
+FROM alpine:latest
+
+VOLUME ["/code"]
+
+RUN apk update
+RUN apk add clang lld
+
+RUN rm -rf /var/cache/apk/*
+
+WORKDIR /code
+```
+
+```bash
+docker build -t clang .
+docker run --rm -v $PWD:/code clang clang --target=wasm32 -O3 -flto -nostdlib -Wl,--no-entry -Wl,--export-all -Wl,--lto-O3 -o code.wasm  code.c
+```
 
 ## #2 - nodejs
 > 2020-29-05 by [@web3scout](https://github.com/web3scout)  
