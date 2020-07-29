@@ -7,10 +7,34 @@
 
 ## #4 - golang wasm
 ```bash
+export GOROOT=/usr/local/opt/go
 export GOPATH=/usr/local/opt/gop
-export PATH=/usr/local/opt/gop/bin:/usr/local/opt/go/bin:$PATH
+export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
+cp $GOROOT/misc/wasm/wasm_exec.js .
 GOOS=js GOARCH=wasm go build -o main.wasm .
+gzip -9 -v -c main.wasm > main.wasm.gz
+```
+
+```html
+<script src="pako.min.js"></script>
+<script src="wasm_exec.js"></script>
+<script>
+window.addEventListener("DOMContentLoaded", async () => {
+    const go = new Go();
+    const url = "main.wasm.gz";
+    const pako = window.pako;
+    let wasm = pako.ungzip(await (await fetch(url)).arrayBuffer());
+    // A fetched response might be decompressed twice on Firefox.
+    // See https://bugzilla.mozilla.org/show_bug.cgi?id=610679
+    if (wasm[0] === 0x1f && wasm[1] === 0x8b) {
+        wasm = pako.ungzip(wasm);
+    }
+    const result = await WebAssembly.instantiate(wasm, go.importObject)
+        .catch((err) => {console.error(err);});
+    go.run(result.instance);
+});
+</script>
 ```
 
 ## #3 - docker clang
