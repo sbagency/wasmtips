@@ -1,8 +1,17 @@
 ## wasm tips
+-  4 - [golang wasm](https://github.com/web3scout/wasmtips/blob/master/README.md#4---golang-wasm)
 -  3 - [docker clang](https://github.com/web3scout/wasmtips/blob/master/README.md#3---docker-clang)
 -  2 - [node](https://github.com/web3scout/wasmtips/blob/master/README.md#2---node)
 -  1 - [c to wasm](https://github.com/web3scout/wasmtips/blob/master/README.md#1---c-to-wasm)
 -  0 - [wat to wasm](https://github.com/web3scout/wasmtips/blob/master/README.md#0---wat-to-wasm)
+
+## #4 - golang wasm
+```bash
+export GOPATH=/usr/local/opt/gop
+export PATH=/usr/local/opt/gop/bin:/usr/local/opt/go/bin:$PATH
+
+GOOS=js GOARCH=wasm go build -o main.wasm .
+```
 
 ## #3 - docker clang
 ```Dockerfile
